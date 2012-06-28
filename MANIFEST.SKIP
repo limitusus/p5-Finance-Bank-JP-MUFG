@@ -1,4 +1,4 @@
-\bRCS\b
+EAD\bRCS\b
 \bCVS\b
 ^MANIFEST\.
 ^Makefile$
@@ -19,3 +19,4 @@
 ^\.shipit$
 ^\.git/
 \.sw[po]$
+\.DS_Store
