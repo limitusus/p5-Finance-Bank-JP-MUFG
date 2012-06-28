@@ -1,6 +1,3 @@
-aa(undef);
-sub aa {};
-
 use strict;
 use warnings;
 

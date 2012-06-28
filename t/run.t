@@ -95,7 +95,7 @@ subtest q{Downloads the transactions with save path.} => sub {
     $mock->set_always( '_get_filename_from_response', '1673544_20120708215653.csv' );
     $mock->set_always( 'mech',                        $mock_mech );
 
-    my $filepath = $mock->download_transactions( save_path => 't/' );
+    my $filepath = $mock->download_transactions( save_dir => 't/' );
 
     ok( -f $filepath );
 
@@ -164,12 +164,12 @@ subtest q{Downloads the transactions with the invalid arguments.} => sub {
 
     eval {
         my $filepath = $mock->download_transactions(
-            save_path => 't/unknown/',
+            save_dir  => 't/unknown/',
             to_utf8   => 'invalid value',
         );
     };
 
-    like( $@, qr/^Save path doesn't exist./ );
+    like( $@, qr/^Save dir doesn't exist./ );
 };
 
 subtest q{Converts to order.} => sub {
@@ -191,6 +191,19 @@ subtest q{Tests the _build_condition() with the default condition.} => sub {
         is_deeply(
             $condition,
             +{  KOUZA_RADIO  => 0,
+                SHURUI_RADIO => 0,
+                KIKAN_RADIO  => 0,
+            }
+        );
+    }
+
+    {
+        my $condition = Finance::Bank::JP::MUFG::_build_condition(
+            account_no       => '2',
+        );
+        is_deeply(
+            $condition,
+            +{  KOUZA_RADIO  => 1,
                 SHURUI_RADIO => 0,
                 KIKAN_RADIO  => 0,
             }

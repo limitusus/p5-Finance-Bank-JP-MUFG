@@ -45,6 +45,13 @@ sub mech       { shift->{mech} }
 sub agent      { shift->{agent} }
 sub _logged_in { shift->{_logged_in} }
 
+sub xpath_keys          { sort keys %xpaths }
+sub transaction_id_keys { sort keys %transaction_ids }
+
+sub _get_url            { $urls{ $_[0] } }
+sub _get_xpath          { $xpaths{ $_[0] } }
+sub _get_transaction_id { $transaction_ids{ $_[0] } }
+
 sub new {
     my ( $class, %args ) = @_;
 
@@ -68,7 +75,7 @@ sub new {
 sub _check_agent {
     my $agent = shift;
     return 0 unless defined $agent;
-    if ( any { $_ eq $agent } WWW::Mechanize->known_agent_aliases() ) {
+    if ( any { $_ eq $agent } WWW::Mechanize::known_agent_aliases() ) {
         return 1;
     }
     return 0;
@@ -187,6 +194,7 @@ sub transactions {
         @transaction{@keys} = @values;
 
         foreach my $key ( keys %transaction ) {
+
             # no-break space code point.
             my $nbsp = "\xA0";
             $transaction{$key} =~ s/$nbsp//g;
@@ -215,14 +223,14 @@ sub transactions {
 
 sub download_transactions {
     my ( $self, %args ) = @_;
-    my $save_path = delete $args{save_path} || getcwd;
-    my $to_utf8   = delete $args{to_utf8}   || 0;
+    my $save_dir = delete $args{save_dir} || getcwd;
+    my $to_utf8  = delete $args{to_utf8}  || 0;
 
     if ( not $self->_logged_in() ) {
         croak q{Not logged in.};
     }
-    elsif ( not -d $save_path ) {
-        croak q{Save path doesn't exist.};
+    elsif ( not -d $save_dir ) {
+        croak q{Save dir doesn't exist.};
     }
     elsif ( not $to_utf8 =~ /^[01]$/ ) {
         carp q{Set the 0 or 1 in the $to_utf8.};
@@ -245,8 +253,8 @@ sub download_transactions {
 
     my $filename = $self->_get_filename_from_response;
     my $content  = $self->mech()->content;               # Not flagged utf8 content.
-    $save_path .= '/' unless $save_path =~ m!/$!;
-    my $filepath = $save_path . $filename;
+    $save_dir .= '/' unless $save_dir =~ m!/$!;
+    my $filepath = $save_dir . $filename;
 
     croak q{Already exists the file.} if -e $filepath;
 
@@ -326,7 +334,7 @@ sub _build_condition {
         }
 
         my $t_from = Time::Piece->strptime( $from, '%Y/%m/%d' );
-        my $t_to   = Time::Piece->strptime( $to, '%Y/%m/%d' );
+        my $t_to   = Time::Piece->strptime( $to,   '%Y/%m/%d' );
 
         if ( $t_from > $t_to ) {
             carp q{Needs to change the from_date before the to_date. Changes to default condition.};
@@ -458,12 +466,6 @@ sub logout {
     return;
 }
 
-sub xpath_keys          { sort keys %xpaths }
-sub transaction_id_keys { sort keys %transaction_ids }
-sub _get_url            { $urls{ my $key = shift } }
-sub _get_xpath          { $xpaths{ my $key = shift } }
-sub _get_transaction_id { $transaction_ids{ my $key = shift } }
-
 1;
 __END__
 
@@ -473,57 +475,247 @@ Finance::Bank::JP::MUFG - Checks balances and transactions of MUFG-DIRECT accoun
 
 =head1 SYNOPSIS
 
-    use Finance::Bank::JP::MUFG;
-    use feature qw(say);
+  use Finance::Bank::JP::MUFG;
+  use feature qw(say);
 
-    my $mufg = Finance::Bank::JP::MUFG->new(
-        contract_no => '12345678',
-        password    => 'direct_password',
-    )->login();
+  my $mufg = Finance::Bank::JP::MUFG->new(
+      contract_no => '12345678',
+      password    => 'direct_password',
+      agent       => 'Windows Mozilla',
+  )->login();
 
-    my @balances = $mufg->balances();
+  my @balances = $mufg->balances();
 
-    say $balances[0]->{branch};              # >> 恵比寿支店
-    say $balances[0]->{account_kind};        # >> 普通
-    say $balances[0]->{account_no};          # >> 8888888
-    say $balances[0]->{balance};             # >> 15000000
-    say $balances[0]->{withdrawal_limit};    # >> 500000
+  say $balances[0]->{branch};
+  say $balances[0]->{account_kind};
+  say $balances[0]->{account_no};
+  say $balances[0]->{balance};
+  say $balances[0]->{withdrawal_limit};
 
-    my @transactions = $mufg->transactions(
-        account_no       => 1,
-        transaction_kind => 1,
-        term             => 4,
-        from             => '2012/6/1',
-        to               => '2012/7/10',
-    );
+  my @transactions = $mufg->transactions(
+      account_no       => 1,
+      transaction_kind => 1,
+      term             => 3,
+      date             => '2012/6/22',
+  );
 
-    say $transactions[0]->{date}->ymd('/');    # >> 2012/6/22 (Time::Piece Object)
-    say $transactions[0]->{abstract};          # >> 振込ＩＢ１
-    say $transactions[0]->{description};       # >> イカリ　シンジ
-    say $transactions[0]->{outlay};            # >> 2000
-    say $transactions[0]->{income};            # >> 0
-    say $transactions[0]->{balance};           # >> 14998000
-    say $transactions[0]->{memo};              # >> 通販
+  say $transactions[0]->{date}->ymd('/');
+  say $transactions[0]->{abstract};
+  say $transactions[0]->{description};
+  say $transactions[0]->{outlay};
+  say $transactions[0]->{income};
+  say $transactions[0]->{balance};
+  say $transactions[0]->{memo};
 
-    my $csv_path = $mufg->download_transactions(
-        account_no       => 1,
-        transaction_kind => 1,
-        term             => 4,
-        from             => '2012/6/1',
-        to               => '2012/7/10',
-        save_path        => '/tmp',
-        to_utf8          => 0,
-    );
+  my $csv_path = $mufg->download_transactions(
+      account_no       => 1,
+      transaction_kind => 1,
+      term             => 4,
+      from             => '2012/6/1',
+      to               => '2012/7/10',
+      save_dir         => '/tmp',
+      to_utf8          => 0,
+  );
 
-    say $csv_path;    # >> /tmp/1673544_20120705174251.csv
+  say $csv_path;
 
-    $mufg->logout();
+  $mufg->logout();
 
 =head1 DESCRIPTION
 
 This module provides methods to access data from MUFG-DIRECT accounts,
 including account balances and recent transactions. It also provides
 a method to download data in CSV format from a given date or date range.
+
+=head1 CONSTRUCTOR AND STARTUP
+
+=head2 new( %options )
+
+Creates and returns a new Finance::Bank::JP::MUFG object.
+
+  my $mufg = Finance::Bank::JP::MUFG->new( ... );
+
+This constructor has to pass two parameters of the Contract Number and Password.
+
+  contract_no => '12345678',
+  password    => 'direct_password',
+
+You can also specify the user agent.
+
+  agent => [alias]
+
+The list of valid aliases is:
+
+=over 6
+
+=item * Windows IE 6
+
+=item * Windows Mozilla
+
+=item * Mac Safari
+
+=item * Mac Mozilla(Default value)
+
+=item * Linux Mozilla
+
+=item * Linux Konqueror
+
+=back
+
+=head1 METHODS
+
+=head2 $mufg->login()
+
+Runs login process and returns a self object.
+Be sure to call after object creation.
+
+=head2 $mufg->balances()
+
+Returns an array of all the account balances.
+This array stores hash references of each account,
+and you can access with the following keys.
+
+=over 5
+
+=item * branch
+
+=item * account_kind
+
+=item * account_no
+
+=item * balance
+
+=item * withdrawal_limit
+
+=back
+
+=head2 $mufg->transactions( %options )
+
+Specify as follows, passing the hash to the argument.
+
+=over 6
+
+=item * C<< account_no => [1|2|3|..N] >>
+
+Choose which account to retrieve data.
+Default value is 1 and which is optional.
+
+=item * C<< transaction_kind => [1|2|3|4] >>
+
+Choose transaction kinds.
+Default value is 1 and which is optional.
+
+  1 ALL
+  2 MONEY RECEIVED
+  3 WITHDRAWAL
+  4 TRANSFER PAYMENT
+
+=item * C<< term => [1|2|3|4] >>
+
+Choose term to retrieve data.
+Default value is 1 and which is optional.
+
+  1 From the beginning of one month ago until today
+  2 Recent 10 days
+  3 Specified date
+  4 Specified period
+
+=item * C<< date => '%Y/%m/%d' >>
+
+If term's value is 3, specified date is used.
+Default value is today and which is optional.
+
+=item * C<< from => '%Y/%m/%d' >>
+
+If term's value is 4, specified date is used.
+This parameter is required.
+
+=item * C<< to => '%Y/%m/%d' >>
+
+If term's value is 4, specified date is used.
+Default value is today and which is optional.
+
+=back
+
+Returns an array of transactions.
+This array stores hash references of each transaction,
+and you can access with the following keys.
+
+=over 7
+
+=item * date L<Time::Piece>
+
+=item * abstract
+
+=item * description
+
+=item * outlay
+
+=item * income
+
+=item * balance
+
+=item * memo
+
+=back
+
+=head2 $mufg->download_transactions( %options )
+
+Returns a saved path.
+Specify as follows, passing the hash to the argument.
+
+=over 8
+
+=item * C<< account_no => [1|2|3|..N] >>
+
+Choose which account to retrieve data.
+Default value is 1 and which is optional.
+
+=item * C<< transaction_kind => [1|2|3|4] >>
+
+Choose transaction kinds.
+Default value is 1 and which is optional.
+
+  1 ALL
+  2 MONEY RECEIVED
+  3 WITHDRAWAL
+  4 TRANSFER PAYMENT
+
+=item * C<< term => [1|2|3|4] >>
+
+Choose term to retrieve data.
+Default value is 1 and which is optional.
+
+  1 From the beginning of one month ago until today
+  2 Recent 10 days
+  3 Specified date
+  4 Specified period
+
+=item * C<< date => '%Y/%m/%d' >>
+
+If term's value is 3, specified date is used.
+Default value is today and which is optional.
+
+=item * C<< from => '%Y/%m/%d' >>
+
+If term's value is 4, specified date is used.
+This parameter is required.
+
+=item * C<< to => '%Y/%m/%d' >>
+
+If term's value is 4, specified date is used.
+Default value is today and which is optional.
+
+=item * C<< save_dir => '/path/to/save_dir' >>
+
+If term's value is 3, specified date is used.
+
+=item * C<< to_utf8 => [0|1] >>
+
+Set a flag. If flag is off, CSV's charset is cp932.
+Default is off and which is optional.
+
+=back
 
 =head1 AUTHOR
 

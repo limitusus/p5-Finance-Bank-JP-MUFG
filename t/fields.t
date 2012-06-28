@@ -6,19 +6,15 @@ use WWW::Mechanize;
 use HTML::TreeBuilder::XPath;
 use HTML::Selector::XPath 'selector_to_xpath';
 use Finance::Bank::JP::MUFG;
+use t::Helper::Page;
 
 subtest q{Form Fields.} => sub {
-    my $mech = WWW::Mechanize->new( autocheck => 1, );
-    my $url = Finance::Bank::JP::MUFG::_get_url('login');
-
-    $mech->get($url);
-
     my $tree       = HTML::TreeBuilder::XPath->new;
-    my $login_page = $mech->content;
+    my $login_page = t::Helper::Page::login();
 
     $tree->parse($login_page);
 
-    my $xpath  = selector_to_xpath('div#container input[type=hidden]');
+    my $xpath  = Finance::Bank::JP::MUFG::_get_xpath('hidden');
     my @nodes  = $tree->findnodes($xpath);
     my $fields = Finance::Bank::JP::MUFG::_create_form_fields(
         'login',

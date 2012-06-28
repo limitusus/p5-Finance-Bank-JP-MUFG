@@ -1,7 +1,7 @@
 ---
-abstract: 'Checks balance and transaction of MUFG DIRECT.'
+abstract: 'Checks balances and transactions of MUFG-DIRECT account.'
 author:
-  - 'perforb <dev.perfumed.garden@gmail.com>'
+  - 'Yusuke Maeda <dev.perfumed.garden@gmail.com>'
 build_requires:
   ExtUtils::MakeMaker: 6.36
 configure_requires:
@@ -21,4 +21,5 @@ no_index:
 requires: {}
 resources:
   license: http://dev.perl.org/licenses/
+  repository: https://github.com/perforb/p5-Finance-Bank-JP-MUFG.git
 version: 0.01

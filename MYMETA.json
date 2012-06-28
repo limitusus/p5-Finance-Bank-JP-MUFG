@@ -1,7 +1,7 @@
 {
-   "abstract" : "Checks balance and transaction of MUFG DIRECT.",
+   "abstract" : "Checks balances and transactions of MUFG-DIRECT account.",
    "author" : [
-      "perforb <dev.perfumed.garden@gmail.com>"
+      "Yusuke Maeda <dev.perfumed.garden@gmail.com>"
    ],
    "dynamic_config" : 0,
    "generated_by" : "Module::Install version 1.06, CPAN::Meta::Converter version 2.120921",
@@ -39,7 +39,10 @@
    "resources" : {
       "license" : [
          "http://dev.perl.org/licenses/"
-      ]
+      ],
+      "repository" : {
+         "url" : "https://github.com/perforb/p5-Finance-Bank-JP-MUFG.git"
+      }
    },
    "version" : "0.01"
 }
