@@ -286,20 +286,20 @@ sub _build_condition {
 
     my $account_no       = _default_value( delete $args{account_no},       1, qr/^[1-9]$/ );
     my $transaction_kind = _default_value( delete $args{transaction_kind}, 1, qr/^[1-4]$/ );
-    my $term             = _default_value( delete $args{term},             1, qr/^[1-4]$/ );
+    my $period           = _default_value( delete $args{period},           1, qr/^[1-4]$/ );
 
     return +{
         KOUZA_RADIO  => _convert_value_to_order($account_no),
         SHURUI_RADIO => _convert_value_to_order($transaction_kind),
-        KIKAN_RADIO  => _convert_value_to_order($term),
-    } if ( $term == 1 || $term == 2 );
+        KIKAN_RADIO  => _convert_value_to_order($period),
+    } if ( $period == 1 || $period == 2 );
 
     my $condition = +{};
 
-    if ( $term == 3 ) {
+    if ( $period == 3 ) {
 
         unless ( exists $args{date} ) {
-            carp q{If the value of term is 3, date is required. Changes to today.};
+            carp q{If the value of period is 3, date is required. Changes to today.};
         }
 
         my $regexp_date = qr!^([\d]{4,4})/(0?[1-9]|1[012])/(0?[1-9]|[12][0-9]|3[01])$!;
@@ -310,16 +310,16 @@ sub _build_condition {
         $condition = +{
             KOUZA_RADIO    => _convert_value_to_order($account_no),
             SHURUI_RADIO   => _convert_value_to_order($transaction_kind),
-            KIKAN_RADIO    => _convert_value_to_order($term),
+            KIKAN_RADIO    => _convert_value_to_order($period),
             HIZUKESHITEI_Y => _convert_year_to_order( $t->year ),
             HIZUKESHITEI_M => _convert_value_to_order( $t->mon ),
             HIZUKESHITEI_D => _convert_value_to_order( $t->mday ),
         };
     }
-    elsif ( $term == 4 ) {
+    elsif ( $period == 4 ) {
 
         unless ( exists $args{from} ) {
-            carp q{If the value of term is 4, from is required. Changes to default condition.};
+            carp q{If the value of period is 4, from is required. Changes to default condition.};
             return $default_condition;
         }
 
@@ -348,7 +348,7 @@ sub _build_condition {
         $condition = +{
             KOUZA_RADIO        => _convert_value_to_order($account_no),
             SHURUI_RADIO       => _convert_value_to_order($transaction_kind),
-            KIKAN_RADIO        => _convert_value_to_order($term),
+            KIKAN_RADIO        => _convert_value_to_order($period),
             KIKANSHITEI_Y_FROM => _convert_year_to_order( $t_from->year ),
             KIKANSHITEI_M_FROM => _convert_value_to_order( $t_from->mon ),
             KIKANSHITEI_D_FROM => _convert_value_to_order( $t_from->mday ),
@@ -495,7 +495,7 @@ Finance::Bank::JP::MUFG - Checks balances and transactions of MUFG-DIRECT accoun
   my @transactions = $mufg->transactions(
       account_no       => 1,
       transaction_kind => 1,
-      term             => 3,
+      period             => 3,
       date             => '2012/6/22',
   );
 
@@ -510,7 +510,7 @@ Finance::Bank::JP::MUFG - Checks balances and transactions of MUFG-DIRECT accoun
   my $csv_path = $mufg->download_transactions(
       account_no       => 1,
       transaction_kind => 1,
-      term             => 4,
+      period             => 4,
       from             => '2012/6/1',
       to               => '2012/7/10',
       save_dir         => '/tmp',
@@ -610,9 +610,9 @@ Default value is 1 and which is optional.
   3 WITHDRAWAL
   4 TRANSFER PAYMENT
 
-=item * C<< term => [1|2|3|4] >>
+=item * C<< period => [1|2|3|4] >>
 
-Choose term to retrieve data.
+Choose period to retrieve data.
 Default value is 1 and which is optional.
 
   1 From the beginning of one month ago until today
@@ -622,17 +622,17 @@ Default value is 1 and which is optional.
 
 =item * C<< date => '%Y/%m/%d' >>
 
-If term's value is 3, specified date is used.
+If period's value is 3, specified date is used.
 Default value is today and which is optional.
 
 =item * C<< from => '%Y/%m/%d' >>
 
-If term's value is 4, specified date is used.
+If period's value is 4, specified date is used.
 This parameter is required.
 
 =item * C<< to => '%Y/%m/%d' >>
 
-If term's value is 4, specified date is used.
+If period's value is 4, specified date is used.
 Default value is today and which is optional.
 
 =back
@@ -681,9 +681,9 @@ Default value is 1 and which is optional.
   3 WITHDRAWAL
   4 TRANSFER PAYMENT
 
-=item * C<< term => [1|2|3|4] >>
+=item * C<< period => [1|2|3|4] >>
 
-Choose term to retrieve data.
+Choose period to retrieve data.
 Default value is 1 and which is optional.
 
   1 From the beginning of one month ago until today
@@ -693,22 +693,22 @@ Default value is 1 and which is optional.
 
 =item * C<< date => '%Y/%m/%d' >>
 
-If term's value is 3, specified date is used.
+If period's value is 3, specified date is used.
 Default value is today and which is optional.
 
 =item * C<< from => '%Y/%m/%d' >>
 
-If term's value is 4, specified date is used.
+If period's value is 4, specified date is used.
 This parameter is required.
 
 =item * C<< to => '%Y/%m/%d' >>
 
-If term's value is 4, specified date is used.
+If period's value is 4, specified date is used.
 Default value is today and which is optional.
 
 =item * C<< save_dir => '/path/to/save_dir' >>
 
-If term's value is 3, specified date is used.
+If period's value is 3, specified date is used.
 
 =item * C<< to_utf8 => [0|1] >>
 

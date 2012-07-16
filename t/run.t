@@ -164,8 +164,8 @@ subtest q{Downloads the transactions with the invalid arguments.} => sub {
 
     eval {
         my $filepath = $mock->download_transactions(
-            save_dir  => 't/unknown/',
-            to_utf8   => 'invalid value',
+            save_dir => 't/unknown/',
+            to_utf8  => 'invalid value',
         );
     };
 
@@ -198,9 +198,7 @@ subtest q{Tests the _build_condition() with the default condition.} => sub {
     }
 
     {
-        my $condition = Finance::Bank::JP::MUFG::_build_condition(
-            account_no       => '2',
-        );
+        my $condition = Finance::Bank::JP::MUFG::_build_condition( account_no => '2', );
         is_deeply(
             $condition,
             +{  KOUZA_RADIO  => 1,
@@ -214,7 +212,7 @@ subtest q{Tests the _build_condition() with the default condition.} => sub {
         my $condition = Finance::Bank::JP::MUFG::_build_condition(
             account_no       => 'inaccurate value',
             transaction_kind => 'inaccurate value',
-            term             => 'inaccurate value',
+            period           => 'inaccurate value',
         );
         is_deeply(
             $condition,
@@ -230,12 +228,12 @@ subtest q{Tests the _build_condition() with the default condition.} => sub {
     ];
 };
 
-subtest q{Tests the _build_condition() with the changed kind and term.} => sub {
+subtest q{Tests the _build_condition() with the changed kind and period.} => sub {
     {
         my $condition = Finance::Bank::JP::MUFG::_build_condition(
             account_no       => 1,
             transaction_kind => 1,
-            term             => 1,
+            period           => 1,
         );
         is_deeply(
             $condition,
@@ -249,7 +247,7 @@ subtest q{Tests the _build_condition() with the changed kind and term.} => sub {
         my $condition = Finance::Bank::JP::MUFG::_build_condition(
             account_no       => 2,
             transaction_kind => 2,
-            term             => 2,
+            period           => 2,
         );
         is_deeply(
             $condition,
@@ -263,7 +261,7 @@ subtest q{Tests the _build_condition() with the changed kind and term.} => sub {
         my $condition = Finance::Bank::JP::MUFG::_build_condition(
             account_no       => 3,
             transaction_kind => 3,
-            term             => 2,
+            period           => 2,
         );
         is_deeply(
             $condition,
@@ -277,7 +275,7 @@ subtest q{Tests the _build_condition() with the changed kind and term.} => sub {
         my $condition = Finance::Bank::JP::MUFG::_build_condition(
             account_no       => 4,
             transaction_kind => 4,
-            term             => 2,
+            period           => 2,
         );
         is_deeply(
             $condition,
@@ -289,13 +287,13 @@ subtest q{Tests the _build_condition() with the changed kind and term.} => sub {
     }
 };
 
-subtest q{Tests the _build_condition() to set the term's value to 3.} => sub {
+subtest q{Tests the _build_condition() to set the period's value to 3.} => sub {
     warning_like {
         my $t         = Time::Piece->localtime;
         my $condition = Finance::Bank::JP::MUFG::_build_condition(
             account_no       => 3,
             transaction_kind => 4,
-            term             => 3,
+            period           => 3,
         );
         is_deeply(
             $condition,
@@ -308,14 +306,14 @@ subtest q{Tests the _build_condition() to set the term's value to 3.} => sub {
             }
         );
     }
-    { carped => qr/^If the value of term is 3, date is required. Changes to today./ };
+    { carped => qr/^If the value of period is 3, date is required. Changes to today./ };
 
     warning_like {
         my $t         = Time::Piece->localtime;
         my $condition = Finance::Bank::JP::MUFG::_build_condition(
             account_no       => 4,
             transaction_kind => 3,
-            term             => 3,
+            period           => 3,
             date             => '3012/13/32'
         );
         is_deeply(
@@ -335,7 +333,7 @@ subtest q{Tests the _build_condition() to set the term's value to 3.} => sub {
         my $condition = Finance::Bank::JP::MUFG::_build_condition(
             account_no       => 1,
             transaction_kind => 1,
-            term             => 3,
+            period           => 3,
             date             => '2012/7/09',
         );
         is_deeply(
@@ -354,7 +352,7 @@ subtest q{Tests the _build_condition() to set the term's value to 3.} => sub {
         my $condition = Finance::Bank::JP::MUFG::_build_condition(
             account_no       => 1,
             transaction_kind => 1,
-            term             => 3,
+            period           => 3,
             date             => '2124/12/31',
         );
         is_deeply(
@@ -373,14 +371,14 @@ subtest q{Tests the _build_condition() to set the term's value to 3.} => sub {
     ];
 };
 
-subtest q{Tests the _build_condition() to set the term's value to 4.} => sub {
+subtest q{Tests the _build_condition() to set the period's value to 4.} => sub {
     {
         my $to_t      = Time::Piece->localtime;
         my $from_t    = $to_t - ONE_MONTH;
         my $condition = Finance::Bank::JP::MUFG::_build_condition(
             account_no       => 1,
             transaction_kind => 1,
-            term             => 4,
+            period           => 4,
             from             => $from_t->ymd('/'),
             to               => $to_t->ymd('/'),
         );
