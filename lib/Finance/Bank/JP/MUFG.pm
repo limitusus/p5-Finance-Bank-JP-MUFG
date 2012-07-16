@@ -471,7 +471,7 @@ __END__
 
 =head1 NAME
 
-Finance::Bank::JP::MUFG - Checks balances and transactions of L<MUFG-DIRECT|http://direct.bk.mufg.jp/> account.
+Finance::Bank::JP::MUFG - Checks balances and transactions of MUFG-DIRECT<http://direct.bk.mufg.jp/> account.
 
 =head1 SYNOPSIS
 
@@ -523,7 +523,7 @@ Finance::Bank::JP::MUFG - Checks balances and transactions of L<MUFG-DIRECT|http
 
 =head1 DESCRIPTION
 
-This module provides methods to access data from L<MUFG-DIRECT|http://direct.bk.mufg.jp/> accounts,
+This module provides methods to access data from MUFG-DIRECT<http://direct.bk.mufg.jp/> accounts,
 including account balances and recent transactions. It also provides
 a method to download data in CSV format from a given date or date range.
 
@@ -729,7 +729,7 @@ Repository: https://github.com/perforb/p5-Finance-Bank-JP-MUFG
 
 =head1 SEE ALSO
 
-L< MUFG-DIRECT|http://direct.bk.mufg.jp/ >
+http://direct.bk.mufg.jp/
 
 L<WWW::Mechanize>
 
