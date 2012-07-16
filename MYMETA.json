@@ -32,7 +32,18 @@
          }
       },
       "runtime" : {
-         "requires" : {}
+         "requires" : {
+            "Carp" : "0",
+            "Cwd" : "0",
+            "Encode" : "0",
+            "Encode::Alias" : "0",
+            "HTML::Selector::XPath" : "0",
+            "HTML::TreeBuilder::XPath" : "0",
+            "LWP::Protocol::https" : "0",
+            "List::MoreUtils" : "0",
+            "Time::Piece" : "0",
+            "WWW::Mechanize" : "0"
+         }
       }
    },
    "release_status" : "stable",
