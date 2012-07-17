@@ -23,12 +23,13 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "ExtUtils::MakeMaker" : "6.36"
+            "ExtUtils::MakeMaker" : "6.59",
+            "Test::More" : "0"
          }
       },
       "configure" : {
          "requires" : {
-            "ExtUtils::MakeMaker" : "6.36"
+            "ExtUtils::MakeMaker" : "6.59"
          }
       },
       "runtime" : {
@@ -42,7 +43,8 @@
             "LWP::Protocol::https" : "0",
             "List::MoreUtils" : "0",
             "Time::Piece" : "0",
-            "WWW::Mechanize" : "0"
+            "WWW::Mechanize" : "0",
+            "perl" : "5.008001"
          }
       }
    },
@@ -55,5 +57,5 @@
          "url" : "https://github.com/perforb/p5-Finance-Bank-JP-MUFG.git"
       }
    },
-   "version" : "0.01"
+   "version" : "0.02"
 }

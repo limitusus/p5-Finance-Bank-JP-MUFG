@@ -3,11 +3,11 @@ abstract: 'Checks balances and transactions of MUFG-DIRECT account.'
 author:
   - 'Yusuke Maeda <dev.perfumed.garden@gmail.com>'
 build_requires:
-  ExtUtils::MakeMaker: 6.36
+  ExtUtils::MakeMaker: 6.59
 configure_requires:
-  ExtUtils::MakeMaker: 6.36
+  ExtUtils::MakeMaker: 0
 dynamic_config: 0
-generated_by: 'Module::Install version 1.06, CPAN::Meta::Converter version 2.120921'
+generated_by: 'ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.120921'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -15,9 +15,8 @@ meta-spec:
 name: Finance-Bank-JP-MUFG
 no_index:
   directory:
-    - inc
     - t
-    - xt
+    - inc
 requires:
   Carp: 0
   Cwd: 0
@@ -29,7 +28,5 @@ requires:
   List::MoreUtils: 0
   Time::Piece: 0
   WWW::Mechanize: 0
-resources:
-  license: http://dev.perl.org/licenses/
-  repository: https://github.com/perforb/p5-Finance-Bank-JP-MUFG.git
-version: 0.01
+  perl: 5.008001
+version: 0.02

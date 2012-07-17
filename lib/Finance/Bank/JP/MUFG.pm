@@ -2,7 +2,8 @@ package Finance::Bank::JP::MUFG;
 
 use strict;
 use warnings;
-our $VERSION = '0.01';
+use 5.008001;
+our $VERSION = '0.02';
 
 use WWW::Mechanize;
 use HTML::TreeBuilder::XPath;
@@ -471,7 +472,7 @@ __END__
 
 =head1 NAME
 
-Finance::Bank::JP::MUFG - Checks balances and transactions of MUFG-DIRECT<http://direct.bk.mufg.jp/> account.
+Finance::Bank::JP::MUFG - Checks balances and transactions of MUFG-DIRECT account.
 
 =head1 SYNOPSIS
 
@@ -495,7 +496,7 @@ Finance::Bank::JP::MUFG - Checks balances and transactions of MUFG-DIRECT<http:/
   my @transactions = $mufg->transactions(
       account_no       => 1,
       transaction_kind => 1,
-      period             => 3,
+      period           => 3,
       date             => '2012/6/22',
   );
 
@@ -510,7 +511,7 @@ Finance::Bank::JP::MUFG - Checks balances and transactions of MUFG-DIRECT<http:/
   my $csv_path = $mufg->download_transactions(
       account_no       => 1,
       transaction_kind => 1,
-      period             => 4,
+      period           => 4,
       from             => '2012/6/1',
       to               => '2012/7/10',
       save_dir         => '/tmp',
@@ -523,7 +524,7 @@ Finance::Bank::JP::MUFG - Checks balances and transactions of MUFG-DIRECT<http:/
 
 =head1 DESCRIPTION
 
-This module provides methods to access data from MUFG-DIRECT<http://direct.bk.mufg.jp/> accounts,
+This module provides methods to access data from MUFG-DIRECT accounts,
 including account balances and recent transactions. It also provides
 a method to download data in CSV format from a given date or date range.
 
@@ -729,7 +730,7 @@ Repository: https://github.com/perforb/p5-Finance-Bank-JP-MUFG
 
 =head1 SEE ALSO
 
-http://direct.bk.mufg.jp/
+MUFG-DIRECT http://direct.bk.mufg.jp/
 
 L<WWW::Mechanize>
 
