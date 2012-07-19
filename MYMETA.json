@@ -24,6 +24,7 @@
       "build" : {
          "requires" : {
             "ExtUtils::MakeMaker" : "6.59",
+            "Test::MockObject::Extends" : "0",
             "Test::More" : "0"
          }
       },
@@ -57,5 +58,5 @@
          "url" : "https://github.com/perforb/p5-Finance-Bank-JP-MUFG.git"
       }
    },
-   "version" : "0.02"
+   "version" : "0.05"
 }

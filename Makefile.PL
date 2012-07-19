@@ -17,6 +17,7 @@ tests 't/*.t';
 author_tests 'xt';
 
 test_requires 'Test::More';
+test_requires 'Test::MockObject::Extends';
 auto_set_repository;
 auto_include;
 WriteAll;

@@ -3,7 +3,7 @@ package Finance::Bank::JP::MUFG;
 use strict;
 use warnings;
 use 5.008001;
-our $VERSION = '0.02';
+our $VERSION = '0.05';
 
 use WWW::Mechanize;
 use HTML::TreeBuilder::XPath;
@@ -709,7 +709,7 @@ Default value is today and which is optional.
 
 =item * C<< save_dir => '/path/to/save_dir' >>
 
-If period's value is 3, specified date is used.
+Set the save directory.
 
 =item * C<< to_utf8 => [0|1] >>
 

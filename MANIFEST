@@ -11,6 +11,7 @@ inc/Module/Install/Metadata.pm
 inc/Module/Install/Repository.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
+inc/Test/MockObject/Extends.pm
 inc/Test/More.pm
 lib/Finance/Bank/JP/MUFG.pm
 Makefile.PL
