@@ -12,6 +12,7 @@ requires 'Time::Piece';
 requires 'Encode';
 requires 'Encode::Alias';
 requires 'LWP::Protocol::https';
+requires 'Class::Accessor::Lite';
 
 tests 't/*.t';
 author_tests 'xt';

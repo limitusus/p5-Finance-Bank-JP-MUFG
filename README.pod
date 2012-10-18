@@ -1,54 +1,57 @@
 =head1 NAME
 
-Finance::Bank::JP::MUFG - Checks balances and transactions of MUFG-DIRECT account.
+Finance::Bank::JP::MUFG - Checks account balances and transactions of MUFG-DIRECT account.
 
 =head1 SYNOPSIS
 
   use Finance::Bank::JP::MUFG;
-  use feature qw(say);
 
   my $mufg = Finance::Bank::JP::MUFG->new(
-      contract_no => '12345678',
-      password    => 'direct_password',
-      agent       => 'Windows Mozilla',
-  )->login();
+      contract_no => 'your_contract_no',
+      password    => 'your_direct_password',
+  )->login;
 
-  my @balances = $mufg->balances();
+  my @accounts = $mufg->accounts;
 
-  say $balances[0]->{branch};
-  say $balances[0]->{account_kind};
-  say $balances[0]->{account_no};
-  say $balances[0]->{balance};
-  say $balances[0]->{withdrawal_limit};
+  for my $account (@accounts) {
+      printf "%-s  %-s  %-7s %9syen %9syen\n",
+          $account->branch,
+          $account->account_kind,
+          $account->account_no,
+          commify($account->balance),
+          commify($account->withdrawal_limit);
+  }
 
   my @transactions = $mufg->transactions(
       account_no       => 1,
       transaction_kind => 1,
-      period           => 3,
-      date             => '2012/6/22',
+      period           => 1,
   );
 
-  say $transactions[0]->{date}->ymd('/');
-  say $transactions[0]->{abstract};
-  say $transactions[0]->{description};
-  say $transactions[0]->{outlay};
-  say $transactions[0]->{income};
-  say $transactions[0]->{balance};
-  say $transactions[0]->{memo};
+  for my $transaction (@transactions) {
+      printf "%-s  %-s  %-s  %syen  %syen  %syen  %-s\n",
+          $transaction->date->ymd('/'),
+          $transaction->abstract,
+          $transaction->description,
+          commify($transaction->outlay),
+          commify($transaction->income),
+          commify($transaction->balance),
+          $transaction->memo;
+  }
 
   my $csv_path = $mufg->download_transactions(
       account_no       => 1,
       transaction_kind => 1,
       period           => 4,
-      from             => '2012/6/1',
-      to               => '2012/7/10',
+      from             => '2012/9/1',
+      to               => '2012/10/12',
       save_dir         => '/tmp',
       to_utf8          => 0,
   );
 
   say $csv_path;
 
-  $mufg->logout();
+  $mufg->logout;
 
 =head1 DESCRIPTION
 
@@ -66,8 +69,8 @@ Creates and returns a new Finance::Bank::JP::MUFG object.
 
 This constructor has to pass two parameters of the Contract Number and Password.
 
-  contract_no => '12345678',
-  password    => 'direct_password',
+  contract_no => 'your_contract_no',
+  password    => 'your_direct_password',
 
 You can also specify the user agent.
 
@@ -98,11 +101,11 @@ The list of valid aliases is:
 Runs login process and returns a self object.
 Be sure to call after object creation.
 
-=head2 $mufg->balances()
+=head2 $mufg->accounts()
 
 Returns an array of all the account balances.
-This array stores hash references of each account,
-and you can access with the following keys.
+This array stores L<Finance::Bank::JP::MUFG::Account> objects,
+and you can access with the following accessors.
 
 =over 5
 
@@ -167,12 +170,12 @@ Default value is today and which is optional.
 =back
 
 Returns an array of transactions.
-This array stores hash references of each transaction,
-and you can access with the following keys.
+This array stores L<Finance::Bank::JP::MUFG::Transaction> objects,
+and you can access with the following accessors.
 
 =over 7
 
-=item * date L<Time::Piece>
+=item * L<date|Time::Piece>
 
 =item * abstract
 
@@ -248,7 +251,7 @@ Default is off and which is optional.
 
 =head1 AUTHOR
 
-Yusuke Maeda E<lt>dev.perfumed.garden[at]gmail.comE<gt>
+Yusuke Maeda E<lt>dev.perfumed.garden@gmail.comE<gt>
 
 =head1 FINANCE::BANK::JP::MUFG'S GIT REPOSITORY
 
@@ -258,13 +261,17 @@ Repository: https://github.com/perforb/p5-Finance-Bank-JP-MUFG
 
 =head1 SEE ALSO
 
-MUFG-DIRECT http://direct.bk.mufg.jp/
+L<MUFG-DIRECT|http://direct.bk.mufg.jp/>
 
 L<WWW::Mechanize>
 
 L<HTML::TreeBuilder::XPath>
 
 L<HTML::Selector::XPath>
+
+L<Finance::Bank::JP::MUFG::Account>
+
+L<Finance::Bank::JP::MUFG::Transaction>
 
 =head1 LICENSE
 

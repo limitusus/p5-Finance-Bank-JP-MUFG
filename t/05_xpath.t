@@ -7,7 +7,7 @@ use Finance::Bank::JP::MUFG;
 
 subtest q{Xpath.} => sub {
     {
-        my $xpath = Finance::Bank::JP::MUFG::_get_xpath('balance');
+        my $xpath = Finance::Bank::JP::MUFG::_get_xpath('account_balances');
         is( $xpath, '/html/body/div/form[2]/div[3]/div[2]/div[3]/table/tbody/tr' );
     }
     {

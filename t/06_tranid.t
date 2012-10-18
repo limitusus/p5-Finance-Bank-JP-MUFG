@@ -18,7 +18,7 @@ subtest q{Transaction ID.} => sub {
         is( $tranid, q{AD001_022} );
     }
     {
-        my $tranid = Finance::Bank::JP::MUFG::_get_transaction_id('balance');
+        my $tranid = Finance::Bank::JP::MUFG::_get_transaction_id('account_balances');
         is( $tranid, q{AD001_001} );
     }
     {

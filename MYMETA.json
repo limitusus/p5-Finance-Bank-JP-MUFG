@@ -1,5 +1,5 @@
 {
-   "abstract" : "Checks balances and transactions of MUFG-DIRECT account.",
+   "abstract" : "Checks account balances and transactions of MUFG-DIRECT account.",
    "author" : [
       "Yusuke Maeda <dev.perfumed.garden@gmail.com>"
    ],
@@ -15,6 +15,7 @@
    "name" : "Finance-Bank-JP-MUFG",
    "no_index" : {
       "directory" : [
+         "examples",
          "inc",
          "t",
          "xt"
@@ -36,6 +37,7 @@
       "runtime" : {
          "requires" : {
             "Carp" : "0",
+            "Class::Accessor::Lite" : "0",
             "Cwd" : "0",
             "Encode" : "0",
             "Encode::Alias" : "0",
@@ -58,5 +60,5 @@
          "url" : "https://github.com/perforb/p5-Finance-Bank-JP-MUFG.git"
       }
    },
-   "version" : "0.05"
+   "version" : "0.06"
 }

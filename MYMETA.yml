@@ -1,5 +1,5 @@
 ---
-abstract: 'Checks balances and transactions of MUFG-DIRECT account.'
+abstract: 'Checks account balances and transactions of MUFG-DIRECT account.'
 author:
   - 'Yusuke Maeda <dev.perfumed.garden@gmail.com>'
 build_requires:
@@ -19,6 +19,7 @@ no_index:
     - inc
 requires:
   Carp: 0
+  Class::Accessor::Lite: 0
   Cwd: 0
   Encode: 0
   Encode::Alias: 0
@@ -29,4 +30,4 @@ requires:
   Time::Piece: 0
   WWW::Mechanize: 0
   perl: 5.008001
-version: 0.05
+version: 0.06
