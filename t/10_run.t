@@ -202,7 +202,7 @@ subtest q{Converts to order.} => sub {
     is(Finance::Bank::JP::MUFG::_convert_year_to_order($current_year),     2);
 };
 
-subtest q{Tests the _build_condition() with the default condition.} => sub {
+subtest q{In the case of the search condition which is invalid.} => sub {
     {
         my %args      = ();
         my $condition = Finance::Bank::JP::MUFG::_build_condition(
@@ -312,7 +312,7 @@ subtest q{Tests the _build_condition() with the changed kind and period.} => sub
     }
 };
 
-subtest q{Tests the _build_condition() to set the period's value to 3.} => sub {
+subtest q{In the case of the value of period which is 3.} => sub {
     my $t     = Time::Piece->localtime;
     my $today = Time::Piece->localtime->ymd('/');
 
@@ -400,7 +400,7 @@ subtest q{Tests the _build_condition() to set the period's value to 3.} => sub {
     ];
 };
 
-subtest q{Tests the _build_condition() to set the period's value to 4.} => sub {
+subtest q{In the case of the value of period which is 4.} => sub {
     {
         my $to_t      = Time::Piece->localtime;
         my $from_t    = $to_t - ONE_MONTH;
@@ -409,7 +409,7 @@ subtest q{Tests the _build_condition() to set the period's value to 4.} => sub {
             transaction_kind => 1,
             period           => 4,
             from             => $from_t->ymd('/'),
-            to               => $to_t->ymd('/'),
+            to               => undef,
         );
         is_deeply(
             $condition,

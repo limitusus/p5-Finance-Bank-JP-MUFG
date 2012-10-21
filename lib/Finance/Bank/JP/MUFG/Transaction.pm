@@ -2,16 +2,16 @@ package Finance::Bank::JP::MUFG::Transaction;
 
 use strict;
 use warnings;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 BEGIN {
     my @columns = qw/ date abstract description outlay income balance memo /;
-    sub columns {@columns}
+    sub columns { @columns }
 }
 
 use Class::Accessor::Lite (
     new => 1,
-    ro  => [&columns],
+    ro  => [ &columns ],
 );
 
 1;
@@ -19,11 +19,7 @@ __END__
 
 =head1 NAME
 
-Finance::Bank::JP::MUFG::Transaction - Transaction
-
-=head1 DESCRIPTION
-
-Finance::Bank::JP::MUFG::Transaction is transaction object.
+Finance::Bank::JP::MUFG::Transaction - Object of MUFG transaction
 
 =head1 ACCESSORS
 

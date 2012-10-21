@@ -22,8 +22,6 @@ lib/Finance/Bank/JP/MUFG/Transaction.pm
 Makefile.PL
 MANIFEST			This list of files
 META.yml
-MYMETA.json
-MYMETA.yml
 README
 README.pod
 t/00_compile.t

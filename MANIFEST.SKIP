@@ -1,6 +1,7 @@
 EAD\bRCS\b
 \bCVS\b
 ^MANIFEST\.
+^MYMETA\.
 ^Makefile$
 ~$
 ^#

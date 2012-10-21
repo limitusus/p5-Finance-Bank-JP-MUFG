@@ -1,0 +1,39 @@
+---
+abstract: 'Checks account balances and transactions of MUFG-DIRECT account.'
+author:
+  - 'Yusuke Maeda <dev.perfumed.garden@gmail.com>'
+build_requires:
+  ExtUtils::MakeMaker: 6.59
+configure_requires:
+  ExtUtils::MakeMaker: 6.59
+distribution_type: module
+dynamic_config: 1
+generated_by: 'Module::Install version 1.06'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Finance-Bank-JP-MUFG
+no_index:
+  directory:
+    - examples
+    - inc
+    - t
+    - xt
+requires:
+  Carp: 0
+  Class::Accessor::Lite: 0.05
+  Cwd: 0
+  Encode: 2.47
+  Encode::Alias: 2.16
+  HTML::Selector::XPath: 0.15
+  HTML::TreeBuilder::XPath: 0.14
+  LWP::Protocol::https: 6.03
+  List::MoreUtils: 0
+  Time::Piece: 1.20
+  WWW::Mechanize: 1.72
+  perl: 5.8.1
+resources:
+  license: http://dev.perl.org/licenses/
+  repository: https://github.com/perforb/p5-Finance-Bank-JP-MUFG.git
+version: 0.07

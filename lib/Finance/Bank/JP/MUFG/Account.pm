@@ -2,16 +2,16 @@ package Finance::Bank::JP::MUFG::Account;
 
 use strict;
 use warnings;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 BEGIN {
     my @columns = qw/ branch account_kind account_no balance withdrawal_limit /;
-    sub columns {@columns}
+    sub columns { @columns }
 }
 
 use Class::Accessor::Lite (
     new => 1,
-    ro  => [&columns],
+    ro  => [ &columns ],
 );
 
 1;
@@ -19,11 +19,7 @@ __END__
 
 =head1 NAME
 
-Finance::Bank::JP::MUFG::Account - Account balance
-
-=head1 DESCRIPTION
-
-Finance::Bank::JP::MUFG::Account is account balance object.
+Finance::Bank::JP::MUFG::Account - Object of MUFG account balance
 
 =head1 ACCESSORS
 

@@ -3,7 +3,7 @@ package Finance::Bank::JP::MUFG;
 use strict;
 use warnings;
 use 5.008_001;
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 use WWW::Mechanize;
 use HTML::TreeBuilder::XPath;

@@ -1,5 +1,11 @@
 Revision history for Perl extension Finance::Bank::JP::MUFG
 
+0.07    Sun, Oct. 21, 2012
+        - Modify test code
+        - Change Makefile.PL
+        - Fix pod
+        - code forming
+
 0.06    Tue, Oct. 16, 2012
         - Add examples
         - Change method name
